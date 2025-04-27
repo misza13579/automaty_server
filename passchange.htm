@@ -6,6 +6,17 @@
     <title>Zmiana hasla</title>
 </head>
 <body>
-    
+    <h1>Zmiana hasła</h1>
+    <form id="passch">
+        <label>Nowe hasło:</label><br>
+        <input type="password" id="newpassword" name="newpassword" required minlength="3" maxlength="15"><br><br>
+
+        <label>Hasło:</label><br>
+        <input type="password" id="password" name="password" required minlength="5" maxlength="30"><br><br>
+
+        <button type="submit">Zmień hasło</button><br><br>
+    </form>
+    <div id="error-message" style="color: red;"></div>
+    <script src="passchange.js"></script>
 </body>
 </html>

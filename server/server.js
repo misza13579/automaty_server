@@ -34,8 +34,8 @@ app.post("/logowanie", (req, res) => {
 
 // Zmiana hasła
 app.put("/zmiana_hasla", (req, res) => {
-    const { id, haslo } = req.body;
-    db.run("UPDATE uzytkownicy SET haslo = ? WHERE identyfikator = ?", [haslo, id], function(err) {
+    const { username, password, newpassword } = req.body;
+    db.run("UPDATE uzytkownicy SET haslo = ? WHERE login = ? AND haslo = ?", [newpassword, username, password], function(err) {
         if (err) return res.status(500).send(err.message);
         res.json({ zmieniono: this.changes > 0 });
     });
