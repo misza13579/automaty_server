@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 const rateLimit = require("express-rate-limit");
 const db = require("../db/database");
+require('dotenv').config();
 
 const router = express.Router();
 
@@ -37,7 +38,7 @@ router.post("/logowanie",
                     process.env.JWT_SECRET,
                     { expiresIn: "1h" }
                 );
-                res.json({ zalogowany: true, token });
+                res.json({ zalogowany: true, token: token });
             });
         });
     }
@@ -49,7 +50,8 @@ router.post("/dodaj_uzytkownika", (req, res) => {
 
     db.get("SELECT 1 FROM uzytkownicy WHERE identyfikator = ? OR login = ?", [idcard, username], (err, row) => {
         if (err) return res.status(500).send(err.message);
-        if (row) return res.json({ dodano: false });
+        if (row) return res.json({ sukces: false, message: "Użytkownik już istnieje" });
+
 
         bcrypt.hash(password, 10, (err, hashedPassword) => {
             if (err) return res.status(500).send("Błąd haszowania hasła");
@@ -58,10 +60,11 @@ router.post("/dodaj_uzytkownika", (req, res) => {
                 [idcard, username, hashedPassword], 
                 function(err) {
                     if (err) return res.status(500).send(err.message);
-                    res.json({ dodano: true });
+                    res.json({ sukces: true, message: "Rejestracja zakończona sukcesem" });
+
+                });
                 });
         });
     });
-});
 
 module.exports = router;
