@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zmiana hasla</title>
+</head>
+<body>
+    <h1>Zmiana hasła</h1>
+    <form id="passch">
+        <label>Nowe hasło:</label><br>
+        <input type="password" id="newpassword" name="newpassword" required minlength="1" maxlength="15"><br><br>
+
+        <label>identyfikator:</label><br>
+        <input type="password" id="id" name="id"  
+        oncopy="return false;" 
+        oncut="return false;" 
+        onpaste="return false;" 
+        ondragstart="return false;" 
+        autocomplete="off" required minlength="5" maxlength="30" ><br><br>
+
+        <button type="submit">Zmień hasło</button><br><br>
+    </form>
+    <div id="error-message" style="color: red;"></div>
+    <script src="passchange2.js"></script>
+</body>
+</html>
