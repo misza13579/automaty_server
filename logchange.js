@@ -2,10 +2,13 @@ document.getElementById("logch").addEventListener("submit", async function(e) {
   e.preventDefault();
   
   const username = sessionStorage.getItem("username");
-  if (!username) {
-      showError("Nie jesteś zalogowany!");
-      return;
-  }
+  const token = sessionStorage.getItem("token"); 
+  if (!username || !token) {
+    // Jeśli użytkownik nie jest zalogowany (brak nazwy użytkownika lub tokenu), przekieruj na stronę logowania
+    window.location.href = "login.htm";
+    return;
+}
+
 
   const newusername = document.getElementById("newusername").value.trim();
   const password = document.getElementById("password").value;
@@ -19,6 +22,7 @@ document.getElementById("logch").addEventListener("submit", async function(e) {
       const response = await fetch("http://localhost:3000/zmiana_loginu", {
           method: "PUT",
           headers: {
+            'Authorization': `Bearer ${token}`,
               "Content-Type": "application/json"
           },
           body: JSON.stringify({ newusername, username, password })
@@ -31,8 +35,9 @@ document.getElementById("logch").addEventListener("submit", async function(e) {
       }
 
       alert(data.message);
-      sessionStorage.setItem("username", newusername); // Aktualizacja loginu
-      window.location.href = "profil.html";
+      sessionStorage.setItem("username", newusername);
+      localStorage.removeItem("token");  // Aktualizacja loginu
+      window.location.href = "login.htm";
   } catch (error) {
       showError(error.message);
       console.error("Błąd:", error);
