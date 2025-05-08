@@ -31,13 +31,13 @@ document.getElementById("logch").addEventListener("submit", async function(e) {
       const data = await response.json();
 
       if (!response.ok) {
-          throw new Error(data.message || "Błąd podczas zmiany loginu");
-      }
-
-      alert(data.message);
-      sessionStorage.setItem("username", newusername);
-      localStorage.removeItem("token");  // Aktualizacja loginu
-      window.location.href = "login.htm";
+        throw new Error(data.komunikat || data.message || "Błąd podczas zmiany loginu");
+    }
+    
+    alert(data.komunikat || "login zmieniony.");
+    sessionStorage.removeItem("token"); 
+    sessionStorage.removeItem("username"); 
+    window.location.href = "login.htm";
   } catch (error) {
       showError(error.message);
       console.error("Błąd:", error);

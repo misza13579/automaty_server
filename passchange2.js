@@ -43,12 +43,10 @@ document.getElementById("passch").addEventListener("submit", async function(e) {
 const idInput = document.getElementById("id");
 
 function checkFields() {
-  if (newpasswordInput.value.trim() !== "") {
-    idInput.disabled = false;
-  } else {
-    idInput.disabled = true;
-  }
+  const password = newpasswordInput.value.trim();
+  idInput.disabled = password.length < 8;
 }
+
 
 // Nasłuchuj zmiany
 newpasswordInput.addEventListener('input', checkFields);

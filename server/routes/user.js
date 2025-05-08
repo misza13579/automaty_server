@@ -58,7 +58,7 @@ router.put("/zmiana_loginu", verifyToken,
                             db.run("UPDATE zwyciescy SET login = ? WHERE login = ?", [newusername, login], (err) => {
                                 if (err) return res.status(500).send(err.message);
 
-                                res.json({ zmieniono: true });
+                                res.json({ zmieniono: true, komunikat: "login zmieniony poprawnie." });
                             });
                         });
                     });
@@ -68,5 +68,53 @@ router.put("/zmiana_loginu", verifyToken,
     }
 );
 
+router.put("/zmiana_hasla", verifyToken,
+    body("newpassword").isLength({ min: 8 }),
+    (req, res) => {
+        const { newpassword, password } = req.body;
+        const { login } = req.user;
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+        db.get("SELECT * FROM uzytkownicy WHERE login = ?", [login], (err, userRow) => {
+            if (err) return res.status(500).send(err.message);
+            if (!userRow) return res.status(401).json({ zalogowany: false });
+
+            bcrypt.compare(password, userRow.haslo, (err, result) => {
+                if (err) return res.status(500).send(err.message);
+                if (!result) return res.status(401).json({ zmieniono: false, komunikat: "Błędne hasło." });
+
+                bcrypt.hash(newpassword, 10, (err, hashedPassword) => {
+                    if (err) return res.status(500).send("Błąd haszowania hasła");
+
+                    db.run("UPDATE uzytkownicy SET haslo = ? WHERE login = ?", [hashedPassword, login], (err) => {
+                        if (err) return res.status(500).send(err.message);
+
+                        res.json({ zmieniono: true, komunikat: "Hasło zmienione poprawnie." });
+                    });
+                });
+            });
+        });
+    }
+);
+
+router.put("/zmiana_hasla2", body("newpassword").isLength({ min: 8 }),
+    (req, res) => {
+        const { newpassword, id} = req.body;
+
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+        bcrypt.hash(newpassword, 10, (err, hashedPassword) => {
+            if (err) return res.status(500).send("Błąd haszowania hasła");
+
+            db.run("UPDATE uzytkownicy SET haslo = ? WHERE identyfikator = ?", [hashedPassword, id], (err) => {
+                if (err) return res.status(500).send(err.message);
+
+                res.json({ zmieniono: true, komunikat: "Hasło zmienione poprawnie." });
+            });
+        });
+    }
+);
 
 module.exports = router;

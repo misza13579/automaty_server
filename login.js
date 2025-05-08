@@ -26,3 +26,7 @@ document.getElementById("reg").addEventListener("submit", function(e) {
     alert("Wystąpił błąd po stronie serwera.");
   });
 });
+document.addEventListener("DOMContentLoaded", function() {
+  sessionStorage.removeItem("token"); 
+  sessionStorage.removeItem("username"); 
+});
