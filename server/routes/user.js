@@ -3,6 +3,7 @@ const { body, validationResult } = require("express-validator");
 const db = require("../db/database");
 const bcrypt = require("bcrypt");
 const verifyToken = require("../middleware/verifyToken");
+const e = require("express");
 
 const router = express.Router();
 
@@ -16,15 +17,39 @@ router.post("/sprawdz_id", (req, res) => {
     });
 });
 
-// Pobranie loginu po identyfikatorze
-router.post("/pobierz_login", (req, res) => {
-    const { idcard } = req.body;
+router.post('/gracz_info', (req, res) => {
+    const { id } = req.body;
 
-    db.get("SELECT login FROM uzytkownicy WHERE identyfikator = ?", [idcard], (err, row) => {
-        if (err) return res.status(500).send(err.message);
-        res.json({ login: row ? row.login : null });
+    // Pierwsze zapytanie: pobierz login
+    db.get("SELECT login FROM uzytkownicy WHERE identyfikator = ?", [id], (err, row) => {
+        if (err) {
+            return res.status(500).send(err.message);  // W przypadku błędu zwróć 500
+        }
+
+        if (!row) {
+            return res.status(404).send("Użytkownik nie znaleziony");  // Jeśli nie znaleziono, zwróć 404
+        }
+
+        const login = row.login;
+
+        // Drugie zapytanie: pobierz najlepszy wynik
+        db.get("SELECT wynik FROM wyniki WHERE login = ? ORDER BY wynik DESC LIMIT 1", [login], (err, row) => {
+            if (err) {
+                console.log("Błąd przy zapytaniu o wynik:", err);
+                return res.json({ najlepszy_wynik: 0 });  // W przypadku błędu, zwróć wynik 0
+            }
+
+            if (!row) {
+                return res.json({ najlepszy_wynik: 0 });  // Jeśli nie ma wyniku, zwróć 0
+            }
+
+            console.log("Najlepszy wynik:", row.wynik);
+            return res.json({ najlepszy_wynik: row.wynik, login: login });  // Zwróć dane gracza
+        });
     });
 });
+
+
 
 // Zmiana loginu
 router.put("/zmiana_loginu", verifyToken,

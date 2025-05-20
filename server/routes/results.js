@@ -4,16 +4,30 @@ const verifyToken = require("../middleware/verifyToken.js");
 
 const router = express.Router();
 
-// Zapisanie wyniku
-router.post("/zapisz_wynik", verifyToken, (req, res) => {
-    const { id } = req.user;
-    const { wynik } = req.body;
+router.post("/zapisz_wynik", (req, res) => {
+    const { id, wynik } = req.body;
+    function formatujDate(date) {
+        const pad = n => String(n).padStart(2, '0');
+        return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())} ` +
+       `${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    }
 
-    db.run("INSERT INTO wyniki (identyfikator, wynik) VALUES (?, ?)", [id, wynik], function(err) {
+const teraz = formatujDate(new Date());
+    console.log(id, wynik, "zapisuje wynik");
+
+    db.get("SELECT login FROM uzytkownicy WHERE identyfikator = ?", [id], function(err, row) {
         if (err) return res.status(500).send(err.message);
-        res.json({ zapisano: true });
+        if (!row) return res.status(404).send("Użytkownik nie znaleziony");
+
+        const login = row.login;
+
+        db.run("INSERT INTO wyniki (login, data, wynik) VALUES (?, ?, ?)", [login, teraz, wynik], function(err) {
+            if (err) return res.status(500).send(err.message);
+            res.json({ komunikat: "Wynik zapisany pomyślnie!" });
+        });
     });
 });
+
 
 // Pobranie najlepszego wyniku
 router.post("/najlepszy_wynik", verifyToken, (req, res) => {
@@ -34,5 +48,26 @@ router.get("/wyniki", verifyToken, (req, res) => {
         res.json(row);
     });
 });
+
+router.get("/najlepsze_wyniki", (req, res) => {
+    const sql = `
+        SELECT login, MAX(wynik) AS najlepszy_wynik
+        FROM wyniki
+        GROUP BY login
+        ORDER BY najlepszy_wynik DESC
+    `;
+
+    db.all(sql, [], (err, rows) => {
+        if (err) {
+            console.error("Błąd SQL:", err);
+            return res.status(500).send({ error: err.message });
+        }
+
+        res.json(rows);
+    });
+});
+
+
+
 
 module.exports = router;
