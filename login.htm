@@ -1,23 +1,40 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logowanie</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Logowanie</title>
+  <link rel="stylesheet" href="main.css">
 </head>
-    <body>
-        <h1>Logowanie</h1>
-        <form id="reg" method="post">
-            <label> Nazwa użytkownia:</label><br>
-            <input type="text" id="username" name="username"><br><br>
+<body>
+  <canvas id="galaxy-bg"></canvas>
 
-            <label> Hasło:</label><br>
-            <input type="password" id="password" name="password"><br><br>
+  <div class="container">
+    <h1>Logowanie</h1>
+    <form id="reg" method="post">
+      <label>Nazwa użytkownia:</label><br>
+      <input type="text" id="username" name="username"><br><br>
 
-            <button type="submit" >Zaloguj się</button><br><br>
-        </form>
-        <a href="main.htm">Strona główna</a><br>
-        <a href="passchange2.htm">Zapomniałem hasła</a><br>
-    </body>
-    <script src="login.js"></script>
+      <label>Hasło:</label><br>
+      <div class="password-wrapper">
+  <input type="password" id="password" name="password">
+  <span class="toggle-icon" onclick="togglePassword('password', 'toggle-icon')" title="Pokaż hasło">
+    <svg id="toggle-icon" xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 24 24" fill="white">
+      <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 0010 9.79z"/>
+    </svg>
+  </span>
+</div>
+
+      <button type="submit">Zaloguj się</button>
+    </form>
+
+    <div class="links">
+      <a href="main.htm">Strona główna</a>
+      <a href="passchange2.htm">Zapomniałem hasła</a>
+    </div>
+  </div>
+
+  <script src="galaxy.js"></script>
+  <script src="login.js"></script>
+</body>
 </html>

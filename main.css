@@ -1,0 +1,252 @@
+/* Ogólne ustawienia */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(120deg, #000 0%, #120038 100%);
+  background-size: 400% 400%;
+  animation: gradientMove 20s ease infinite;
+  color: white;
+}
+
+@keyframes gradientMove {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
+}
+
+/* Tło galaktyki */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+/* Kontener główny */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 80px auto;
+  padding: 30px;
+  background: rgba(0, 0, 40, 0.75);
+  border-radius: 20px;
+  box-shadow: 0 0 20px #9f44ff;
+}
+
+.container h1 {
+  text-align: center;
+  font-size: 2.2em;
+  margin-bottom: 25px;
+  color: #ffffff;
+  text-shadow: 0 0 8px #9f44ff;
+}
+
+/* Sekcja o grze */
+.game-info {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid #6f3bd7;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 30px;
+  box-shadow: 0 0 10px #6f3bd7;
+}
+
+.game-info h2 {
+  margin-top: 0;
+  color: #ffffff;
+  font-size: 1.5em;
+}
+
+.game-info p {
+  line-height: 1.6;
+  color: #ccc;
+}
+
+/* Tabela wyników */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 0 10px #6f3bd7;
+  margin-bottom: 30px;
+}
+
+table thead {
+  background-color: rgba(111, 59, 215, 0.5);
+}
+
+table th, table td {
+  padding: 15px;
+  text-align: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+table tr:last-child td {
+  border-bottom: none;
+}
+
+table tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* Linki do logowania/rejestracji */
+.auth-links {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.auth-links a {
+  color: #9f44ff;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-block;
+  margin: 5px 0;
+  transition: color 0.3s;
+}
+
+.auth-links a:hover {
+  color: #ffffff;
+  text-shadow: 0 0 5px #9f44ff;
+}
+
+/* Formularz logowania/rejestracji */
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px 40px 10px 10px;
+  border: 2px solid #6f3bd7;
+  border-radius: 10px;
+  margin-top: 5px;
+  background: rgba(255, 255, 255, 0.05);
+  color: white;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: #9f44ff;
+  box-shadow: 0 0 8px #9f44ff;
+}
+
+/* Przycisk */
+button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  background: #6f3bd7;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+button[type="submit"]:hover {
+  background: #8e4bff;
+}
+
+/* Pokazywanie hasła */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  flex: 1;
+}
+
+.toggle-icon {
+  position: absolute;
+  right: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.toggle-icon svg {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s;
+}
+
+.toggle-icon:hover svg {
+  transform: scale(1.2);
+}
+
+/* Linki pod formularzem */
+.links {
+  margin-top: 15px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9em;
+}
+
+.links a {
+  color: #aaa;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.links a:hover {
+  color: #fff;
+}
+
+/* Komunikaty o błędach */
+#error-message {
+  color: #ff5555;
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Responsywność */
+@media (max-width: 480px) {
+  .container {
+    margin: 40px 20px;
+    padding: 20px;
+  }
+}
+
+/* Linki w sekcji profilu */
+.profile-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.profile-links a {
+  color: #9f44ff;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px 20px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s;
+  box-shadow: 0 0 8px rgba(159, 68, 255, 0.3);
+}
+
+.profile-links a:hover {
+  color: #fff;
+  background: rgba(159, 68, 255, 0.3);
+  box-shadow: 0 0 12px #9f44ff;
+}
+
+/* Wyniki */
+.results-container h2 {
+  text-align: center;
+  font-size: 1.8em;
+  margin-bottom: 15px;
+  text-shadow: 0 0 5px #9f44ff;
+}

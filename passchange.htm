@@ -1,22 +1,43 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zmiana hasla</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Zmiana hasła</title>
+  <link rel="stylesheet" href="main.css">
+ 
 </head>
 <body>
+  <canvas id="galaxy-bg"></canvas>
+
+  <div class="container">
     <h1>Zmiana hasła</h1>
     <form id="passch">
-        <label>Nowe hasło:</label><br>
-        <input type="password" id="newpassword" name="newpassword" required minlength="3" maxlength="15"><br><br>
+      <label>Nowe hasło:</label><br>
+      <div class="password-wrapper">
+        <input type="password" id="newpassword" name="newpassword" required minlength="3" maxlength="15">
+        <button type="button" class="toggle-password" aria-label="Pokaż hasło" onclick="togglePassword('newpassword', 'icon-new')">
+          <svg id="icon-new" viewBox="0 0 24 24" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 0010 9.79z"/>
+          </svg>
+        </button>
+      </div><br><br>
 
-        <label>Hasło:</label><br>
-        <input type="password" id="password" name="password" required minlength="5" maxlength="30"><br><br>
+      <label>Hasło:</label><br>
+      <div class="password-wrapper">
+        <input type="password" id="password" name="password" required minlength="5" maxlength="30">
+        <button type="button" class="toggle-password" aria-label="Pokaż hasło" onclick="togglePassword('password', 'icon-current')">
+          <svg id="icon-current" viewBox="0 0 24 24" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 0010 9.79z"/>
+          </svg>
+        </button>
+      </div><br><br>
 
-        <button type="submit">Zmień hasło</button><br><br>
+      <button type="submit">Zmień hasło</button><br><br>
     </form>
-    <div id="error-message" style="color: red;"></div>
-    <script src="passchange.js"></script>
+    <div id="error-message"></div>
+  </div>
+  <script src="galaxy.js"></script>
+  <script src="passchange.js"></script>
 </body>
 </html>
