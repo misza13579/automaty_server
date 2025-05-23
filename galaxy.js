@@ -18,13 +18,15 @@ function init() {
 function draw() {
     ctx.clearRect(0, 0, w, h);
 
+    // Gradient galaktyczny - ciemne odcienie
     const gradient = ctx.createLinearGradient(0, 0, w, h);
-    gradient.addColorStop(0, '#0a0a1a');  // Ciemny granat
-    gradient.addColorStop(0.5, '#0a001a'); // Bardzo ciemny fiolet
-    gradient.addColorStop(1, '#000814');   // Prawie czarny z niebieskim odcieniem
+    gradient.addColorStop(0, '#000000');       // Czarny
+    gradient.addColorStop(0.5, '#1a0033');     // Ciemny fiolet
+    gradient.addColorStop(1, '#000033');       // Ciemny niebieski
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, w, h);
 
+    // Rysowanie gwiazd
     ctx.fillStyle = '#fff';
     stars.forEach(s => {
         ctx.beginPath();

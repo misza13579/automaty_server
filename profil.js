@@ -28,9 +28,6 @@ window.onload = function() {
 
       data.forEach((row, index) => {
           const tr = document.createElement("tr");
-          if (index >= 5) {
-            tr.style.display = "none";  // ukryj wiersze powyżej 5
-          }
 
           const tdData = document.createElement("td");
           tdData.innerText = row.data;
@@ -48,20 +45,6 @@ window.onload = function() {
           tabela.appendChild(tr);
       });
 
-      const showMoreBtn = document.getElementById("showMoreBtn");
-
-      if(data.length > 5){
-        showMoreBtn.style.display = "inline-block";  // pokaż przycisk jeśli więcej niż 5 wyników
-      } else {
-        showMoreBtn.style.display = "none";
-      }
-
-      showMoreBtn.onclick = () => {
-          for(let i = 5; i < tabela.children.length; i++) {
-              tabela.children[i].style.display = "table-row"; // pokaż ukryte wiersze
-          }
-          showMoreBtn.style.display = "none";  // ukryj przycisk po kliknięciu
-      };
   })
   .catch(error => {
       console.error("Błąd:", error);

@@ -9,7 +9,7 @@ document.getElementById("passch").addEventListener("submit", async function(e) {
         return;
     }
   
-    const newpassword = document.getElementById("newpassword").value.trim();
+    const newpassword = document.getElementById("secondpassword").value.trim();
     const password = document.getElementById("password").value;
   
     if (!newpassword || !password) {

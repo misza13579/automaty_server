@@ -19,6 +19,7 @@ router.post("/sprawdz_id", (req, res) => {
 
 router.post('/gracz_info', (req, res) => {
     const { id } = req.body;
+    console.log("ID gracza:", id);
 
     // Pierwsze zapytanie: pobierz login
     db.get("SELECT login FROM uzytkownicy WHERE identyfikator = ?", [id], (err, row) => {
@@ -29,22 +30,24 @@ router.post('/gracz_info', (req, res) => {
         if (!row) {
             return res.status(404).send("Użytkownik nie znaleziony");  // Jeśli nie znaleziono, zwróć 404
         }
-
         const login = row.login;
-
+        console.log("Login gracza:", login);
         // Drugie zapytanie: pobierz najlepszy wynik
         db.get("SELECT wynik FROM wyniki WHERE login = ? ORDER BY wynik DESC LIMIT 1", [login], (err, row) => {
-            if (err) {
-                console.log("Błąd przy zapytaniu o wynik:", err);
-                return res.json({ najlepszy_wynik: 0 });  // W przypadku błędu, zwróć wynik 0
-            }
+  if (err) {
+    console.error("Błąd zapytania:", err);
+    return;
+  }
 
-            if (!row) {
-                return res.json({ najlepszy_wynik: 0 });  // Jeśli nie ma wyniku, zwróć 0
-            }
+  if (!row) {
+    console.log("Nie znaleziono rekordu.");
+    return res.json({login: login,  najlepszy_wynik: 0});
+  }
 
-            console.log("Najlepszy wynik:", row.wynik);
-            return res.json({ najlepszy_wynik: row.wynik, login: login });  // Zwróć dane gracza
+  const wynik = row.wynik;
+  console.log("Wynik:", wynik);
+            console.log("Najlepszy wynik:", wynik);
+            return res.json({ najlepszy_wynik: wynik, login: login });  // Zwróć dane gracza
         });
     });
 });

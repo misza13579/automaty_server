@@ -19,6 +19,6 @@ app.use(authRoutes);
 app.use(userRoutes);
 app.use(resultsRoutes);
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
     console.log(`Serwer działa na http://localhost:${port}`);
 });

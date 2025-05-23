@@ -45,7 +45,7 @@ router.get("/wyniki", verifyToken, (req, res) => {
 
     db.all("SELECT * FROM wyniki WHERE login = ?", [login], (err, row) => {
         if (err) return res.status(500).send(err.message);
-        res.json(row);
+        res.json(row.reverse());
     });
 });
 
