@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const { body, validationResult } = require("express-validator");
 const rateLimit = require("express-rate-limit");
 const db = require("../db/database");
-require('dotenv').config();
+require("dotenv").config();
 
 const router = express.Router();
 
@@ -15,19 +15,24 @@ const loginLimiter = rateLimit({
     message: "Zbyt wiele prób logowania. Spróbuj ponownie za 15 minut.",
 });
 
-// Logowanie
-router.post("/logowanie", 
-    body("username").isLength({ min: 3 }), 
+// 🔐 Logowanie
+router.post(
+    "/logowanie",
+    body("username").isLength({ min: 3 }),
     body("password").isLength({ min: 6 }),
-    loginLimiter, 
+    loginLimiter,
     (req, res) => {
         const errors = validationResult(req);
-        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+        if (!errors.isEmpty()) return res.status(400).json({ error: "Błąd po stronie serwera" });
 
         const { username, password } = req.body;
 
         db.get("SELECT * FROM uzytkownicy WHERE login = ?", [username], (err, row) => {
-            if (err) return res.status(500).send(err.message);
+            if (err) {
+                console.error("Błąd DB (logowanie):", err);
+                return res.status(500).json({ error: "Błąd po stronie serwera" });
+            }
+
             if (!row) return res.status(401).json({ zalogowany: false });
 
             bcrypt.compare(password, row.haslo, (err, result) => {
@@ -44,27 +49,42 @@ router.post("/logowanie",
     }
 );
 
-// Rejestracja (dodawanie użytkownika)
+// 🧾 Rejestracja
 router.post("/dodaj_uzytkownika", (req, res) => {
     const { idcard, username, password } = req.body;
 
-    db.get("SELECT 1 FROM uzytkownicy WHERE identyfikator = ? OR login = ?", [idcard, username], (err, row) => {
-        if (err) return res.status(500).send(err.message);
-        if (row) return res.json({ sukces: false, message: "Użytkownik już istnieje" });
+    if (!idcard || !username || !password) {
+        return res.status(400).json({ sukces: false, message: "Błąd po stronie serwera" });
+    }
 
+    db.get("SELECT 1 FROM uzytkownicy WHERE identyfikator = ? OR login = ?", [idcard, username], (err, row) => {
+        if (err) {
+            console.error("Błąd DB (sprawdzenie istniejącego użytkownika):", err);
+            return res.status(500).json({ sukces: false, message: "Błąd po stronie serwera" });
+        }
+
+        if (row) return res.json({ sukces: false, message: "Rejestracja nie powiodła się" });
 
         bcrypt.hash(password, 10, (err, hashedPassword) => {
-            if (err) return res.status(500).send("Błąd haszowania hasła");
+            if (err) {
+                console.error("Błąd haszowania:", err);
+                return res.status(500).json({ sukces: false, message: "Błąd po stronie serwera" });
+            }
 
-            db.run("INSERT INTO uzytkownicy (identyfikator, login, haslo) VALUES (?, ?, ?)", 
-                [idcard, username, hashedPassword], 
-                function(err) {
-                    if (err) return res.status(500).send(err.message);
+            db.run(
+                "INSERT INTO uzytkownicy (identyfikator, login, haslo) VALUES (?, ?, ?)",
+                [idcard, username, hashedPassword],
+                function (err) {
+                    if (err) {
+                        console.error("Błąd DB (rejestracja):", err);
+                        return res.status(500).json({ sukces: false, message: "Błąd po stronie serwera" });
+                    }
+
                     res.json({ sukces: true, message: "Rejestracja zakończona sukcesem" });
-
-                });
-                });
+                }
+            );
         });
     });
+});
 
 module.exports = router;

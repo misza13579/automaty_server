@@ -244,6 +244,7 @@ button:hover {
     inset 0 0 10px rgba(76, 201, 240, 0.2);
   overflow-x: auto;
   margin-bottom: 2rem;
+    max-height: 300px;
 }
 
 /* Tabela w środku – żadnych marginesów, pełna szerokość */

@@ -8,7 +8,7 @@ window.onload = function() {
   .then(response => response.json())
   .then(data => {
       if (data.error) {
-          alert("Błąd: " + data.error);
+          alert("Błąd po stronie serwera: ");
           return;
       }
 
@@ -34,7 +34,6 @@ window.onload = function() {
       });
   })
   .catch(error => {
-      console.error("Błąd:", error);
       alert("Wystąpił błąd podczas ładowania danych.");
   });
 };
