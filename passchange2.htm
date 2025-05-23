@@ -12,37 +12,56 @@
   <div class="container">
     <h1>Zmiana hasła</h1>
     <form id="passch">
-      <label>Nowe hasło:</label><br>
+      <label>Nowe hasło:</label>
      <div class="password-wrapper">
-  <input type="password" id="password" name="password">
-  <span class="toggle-icon" onclick="togglePassword('password', 'toggle-icon')" title="Pokaż hasło">
-    <svg id="toggle-icon" xmlns="http://www.w3.org/2000/svg" height="24" width="24" viewBox="0 0 24 24" fill="white">
-      <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 0010 9.79z"/>
-    </svg>
-  </span>
-</div>
-      <br><br>
+        <input type="password" id="password" name="password">
+          <span class="toggle-icon" onclick="togglePassword()" title="Pokaż hasło">
+            <img src="ksiezyc.png" class="pixel-icon" alt="Pokaż hasło">
+          </span>
+      </div>
 
-      <label>Identyfikator:</label><br>
+      <label>Identyfikator:</label>
       <div class="password-wrapper">
-<div class="password-wrapper">
-  <input type="password" id="id" name="id" 
+      <div class="password-wrapper">
+        <input type="password" id="id" name="id" 
           oncopy="return false;" 
           oncut="return false;" 
           onpaste="return false;" 
           ondragstart="return false;" 
-          autocomplete="off" required minlength="10" maxlength="10">>
-
-    </div>
-      <br>
-      </br>
-
-      <button type="submit">Zmień hasło</button><br><br>
+          autocomplete="off" required minlength="10" maxlength="10">
+      </div>
+      <div class="button-container">
+        <button type="submit">Zmień hasło</button>
+      </div>
     </form>
     <div id="error-message"></div>
+    <div class="button-container">
+      <button onclick="location.href='main.htm'">Strona główna</button>
+      <button onclick="location.href='login.htm'">Zaloguj się</button>
+    </div>
+
   </div>
 
   <script src="galaxy.js"></script>
   <script src="passchange2.js"></script>
+  <script>
+    function togglePassword() {
+  const input = document.getElementById("password");
+  const iconContainer = document.querySelector(".toggle-icon");
+  const img = iconContainer.querySelector("img");
+
+  if (input.type === "password") {
+    input.type = "text";
+    img.src = "slonce.png";
+    img.alt = "Ukryj hasło";
+    iconContainer.title = "Ukryj hasło";
+  } else {
+    input.type = "password";
+    img.src = "ksiezyc.png";
+    img.alt = "Pokaż hasło";
+    iconContainer.title = "Pokaż hasło";
+  }
+}
+</script>
 </body>
 </html>

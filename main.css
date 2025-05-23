@@ -1,252 +1,370 @@
-/* Ogólne ustawienia */
+/* === GALAXY RETRO PIXEL CSS === */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+:root {
+  --neon-purple: #4cc9f0;
+  --neon-blue: #4cc9f0;
+  --deep-space: #0a0020;
+  --cosmic-pink: #F14F50;
+  --neon-yellow: #D0C050;
+  --stardust: rgba(255,255,255,0.1);
+}
+
+/* CRT Matrix Effect */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(rgba(18, 16, 16, 0.1) 50%, transparent 50%),
+    linear-gradient(90deg, rgba(157, 77, 255, 0.05) 0%, rgba(76, 201, 240, 0.02) 50%, rgba(58, 12, 163, 0.05) 100%);
+  background-size: 100% 6px, 8px 100%;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: overlay;
+}
+
+/* Cosmic Base */
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden;
-  font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(120deg, #000 0%, #120038 100%);
+  overflow-x: hidden;
+  font-family: 'Press Start 2P', cursive;
+  background: linear-gradient(135deg, #000 0%, #120038 50%, #000 100%);
   background-size: 400% 400%;
-  animation: gradientMove 20s ease infinite;
-  color: white;
+  animation: cosmicDrift 20s ease infinite;
+  color: #fff;
+  line-height: 1.6;
+  image-rendering: pixelated;
 }
 
-@keyframes gradientMove {
-  0% {background-position: 0% 50%;}
-  50% {background-position: 100% 50%;}
-  100% {background-position: 0% 50%;}
+@keyframes cosmicDrift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
-/* Tło galaktyki */
-canvas {
+/* Galaxy Canvas */
+#galaxy-bg {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
-/* Kontener główny */
+/* Main Container */
 .container {
   position: relative;
   z-index: 1;
   max-width: 600px;
-  margin: 80px auto;
-  padding: 30px;
-  background: rgba(0, 0, 40, 0.75);
-  border-radius: 20px;
-  box-shadow: 0 0 20px #9f44ff;
+  margin: 5vh auto;
+  padding: 2rem;
+  background: rgba(10, 0, 32, 0.9);
+  border: 4px solid var(--neon-blue);
+  border-radius: 12px;
+  box-shadow:     
+  8px 8px 0 var(--cosmic-pink),
+  8px 8px 0 var(--deep-space);
 }
 
+
+/* Headers */
 .container h1 {
   text-align: center;
-  font-size: 2.2em;
-  margin-bottom: 25px;
-  color: #ffffff;
-  text-shadow: 0 0 8px #9f44ff;
+  font-size: clamp(1.4em, 2.5vw, 2.2em);
+  margin: 0 0 2rem;
+  color: var(--cosmic-pink);
+  text-shadow: 
+    4px 4px 0 var(--neon-blue),
+    6px 6px 0 var(--deep-space);
+  letter-spacing: -1px;
+  animation: glitch 1.5s linear infinite;
 }
 
-/* Sekcja o grze */
+@keyframes glitch {
+  0%, 100% { transform: translate(0); }
+  20% { transform: translate(-3px, 2px); }
+  40% { transform: translate(2px, -2px); }
+  60% { transform: translate(-2px, 3px); }
+  80% { transform: translate(3px, -1px); }
+}
+
+/* Game Info Panel */
 .game-info {
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid #6f3bd7;
-  border-radius: 15px;
-  padding: 20px;
-  margin-bottom: 30px;
-  box-shadow: 0 0 10px #6f3bd7;
+  background: rgba(0, 0, 0, 0.3);
+  border: 3px solid var(--neon-blue);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 
+    0 0 15px rgba(76, 201, 240, 0.4),
+    inset 0 0 10px rgba(76, 201, 240, 0.2);
 }
 
 .game-info h2 {
-  margin-top: 0;
-  color: #ffffff;
-  font-size: 1.5em;
+  margin: 0 0 1rem;
+  color: var(--neon-blue);
+  font-size: 1.2em;
+  text-shadow: 2px 2px 0 var(--deep-space);
 }
 
 .game-info p {
-  line-height: 1.6;
-  color: #ccc;
+  color: #ffffff;
+  font-size: clamp(0.7em, 1vw, 0.75em);
+  line-height: 1.8;
 }
 
-/* Tabela wyników */
-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 15px;
-  overflow: hidden;
-  box-shadow: 0 0 10px #6f3bd7;
-  margin-bottom: 30px;
-}
 
-table thead {
-  background-color: rgba(111, 59, 215, 0.5);
-}
-
-table th, table td {
-  padding: 15px;
-  text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  color: #fff;
-}
-
-table tr:last-child td {
-  border-bottom: none;
-}
-
-table tr:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-/* Linki do logowania/rejestracji */
+/* Auth Links */
 .auth-links {
   text-align: center;
-  margin-top: 20px;
+  margin: 2rem 0 0.5rem;
 }
 
-.auth-links a {
-  color: #9f44ff;
-  text-decoration: none;
-  font-weight: bold;
-  display: inline-block;
-  margin: 5px 0;
-  transition: color 0.3s;
+/* Forms */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.auth-links a:hover {
-  color: #ffffff;
-  text-shadow: 0 0 5px #9f44ff;
+label {
+  display: block;
+  margin: 1rem 0 0.5rem;
+  color: var(--neon-blue);
+  font-size: 0.8em;
 }
 
-/* Formularz logowania/rejestracji */
 input[type="text"],
 input[type="password"] {
   width: 100%;
-  padding: 10px 40px 10px 10px;
-  border: 2px solid #6f3bd7;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  border: 3px solid var(--neon-purple);
   border-radius: 10px;
-  margin-top: 5px;
-  background: rgba(255, 255, 255, 0.05);
-  color: white;
+  color: #fff;
+  font-family: 'Press Start 2P', cursive;
+  font-size: clamp(0.65em, 1vw, 0.8em);
   box-sizing: border-box;
-  transition: all 0.2s ease-in-out;
+  transition: all 0.3s;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus {
+input:focus {
   outline: none;
-  border-color: #9f44ff;
-  box-shadow: 0 0 8px #9f44ff;
+  border-color: var(--neon-blue);
+  box-shadow: 0 0 15px var(--neon-blue);
 }
 
-/* Przycisk */
-button[type="submit"] {
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  background: #6f3bd7;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s;
-}
-
-button[type="submit"]:hover {
-  background: #8e4bff;
-}
-
-/* Pokazywanie hasła */
+/* Password Field */
 .password-wrapper {
   position: relative;
-  display: flex;
-  align-items: center;
 }
 
 .password-wrapper input {
-  flex: 1;
+  padding-right: 3.5rem;
 }
 
 .toggle-icon {
   position: absolute;
-  right: 10px;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 30px;
+  height: 30px;
 }
 
-.toggle-icon svg {
+.pixel-icon {
   width: 24px;
   height: 24px;
-  transition: transform 0.2s;
+  filter: contrast(200%) brightness(1.2);
 }
 
-.toggle-icon:hover svg {
-  transform: scale(1.2);
-}
-
-/* Linki pod formularzem */
-.links {
-  margin-top: 15px;
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.9em;
-}
-
-.links a {
-  color: #aaa;
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.links a:hover {
-  color: #fff;
-}
-
-/* Komunikaty o błędach */
-#error-message {
-  color: #ff5555;
-  margin-top: 10px;
+/* Buttons */
+button{
+  background: var(--cosmic-pink);
   text-align: center;
+  color: #fff;
+  font-family: 'Press Start 2P', cursive;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: clamp(0.65em, 1vw, 0.8em);
+  box-shadow: 
+    4px 4px 0 var(--neon-blue),
+    6px 6px 0 var(--deep-space);
+  transform: translate(0, 0);
+  transition: all 0.2s ease-out;
+  animation: glitch-effect 2s infinite alternate;
 }
 
-/* Responsywność */
-@media (max-width: 480px) {
-  .container {
-    margin: 40px 20px;
-    padding: 20px;
+button:hover{
+  background: var(--neon-blue);
+  transform: translate(3px, 3px);
+  box-shadow: 
+    1px 1px 0 var(--cosmic-pink),
+    3px 3px 0 var(--deep-space);
+  animation: none;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  gap: 1rem;
+  width: 100%; /* ← to może brakować */
+  margin-top: 2rem; 
+  margin-bottom: 1.5rem;
+}
+
+/* Animations */
+@keyframes glitch-effect {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-1px, 1px); }
+  40% { transform: translate(1px, -1px); }
+  60% { transform: translate(0, 0); }
+  80% { transform: translate(1px, 1px); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    margin-bottom: 1rem;
+  }
+
+  td {
+    text-align: right;
+    padding-left: 50%;
+    position: relative;
+  }
+
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 1rem;
+    top: 1rem;
+    width: 45%;
+    white-space: nowrap;
+    font-weight: bold;
+    color: var(--neon-blue);
   }
 }
 
-/* Linki w sekcji profilu */
-.profile-links {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 30px;
+@media (max-width: 576px) {
+  .container {
+    margin: 10% 4%;
+    padding: 1.5rem;
+  }
+
+  .auth-links a {
+    width: 100%;
+    margin: 0 auto 1rem;
+  }
+
+  button[type="submit"] {
+    padding: 0.8rem;
+    font-size: 0.75em;
+  }
 }
 
-.profile-links a {
-  color: #9f44ff;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 10px 20px;
-  border-radius: 10px;
-  text-decoration: none;
-  font-weight: bold;
-  transition: all 0.3s;
-  box-shadow: 0 0 8px rgba(159, 68, 255, 0.3);
+@media (min-width: 769px) and (max-width: 991px) {
+  .container {
+    max-width: 80%;
+  }
 }
 
-.profile-links a:hover {
-  color: #fff;
-  background: rgba(159, 68, 255, 0.3);
-  box-shadow: 0 0 12px #9f44ff;
+@media (min-width: 992px) and (max-width: 1199px) {
+  .container {
+    max-width: 700px;
+  }
 }
 
-/* Wyniki */
-.results-container h2 {
+@media (min-width: 1200px) {
+  .container {
+    max-width: 800px;
+  }
+}
+
+/* Stylizacja tabeli jak .game-info */
+.table-wrapper {
+  width: 100%; /* <- to kluczowe */
+  background: rgba(0, 0, 0, 0.3);
+  border: 3px solid var(--neon-purple);
+  border-radius: 12px;
+  box-shadow:
+    0 0 20px rgba(157, 77, 255, 0.3),
+    inset 0 0 10px rgba(76, 201, 240, 0.2);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+/* Tabela w środku – żadnych marginesów, pełna szerokość */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+  background: transparent;
+}
+
+/* Nagłówki */
+table thead {
+  background: rgba(76, 201, 240, 0.1);
+  color: var(--neon-blue);
+  text-shadow: 1px 1px 0 var(--deep-space);
+  font-size: 0.9em;
+}
+
+/* Komórki */
+table th,
+table td {
+  padding: 1rem;
   text-align: center;
-  font-size: 1.8em;
-  margin-bottom: 15px;
-  text-shadow: 0 0 5px #9f44ff;
+  font-size: 0.8em;
+  color: #fff;
+  background: transparent;
+  border-bottom: 1px solid rgba(76, 201, 240, 0.2);
+  word-wrap: break-word;
+}
+
+/* Usuń dolną krawędź w ostatnim wierszu */
+table tr:last-child td {
+  border-bottom: none;
+}
+
+/* Efekt przy najechaniu */
+table tr:hover {
+  background: rgba(187, 179, 181, 0.08);
+}
+
+/* Chrome, Safari, Edge */
+input[type="password"]::-webkit-password-toggle-button {
+  display: none !important;
+  -webkit-appearance: none !important;
+}
+
+/* IE */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none !important;
+}
+
+/* Firefox */
+input[type="password"] {
+  -moz-appearance: textfield !important;
+  appearance: none !important;
 }

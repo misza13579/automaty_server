@@ -11,20 +11,12 @@
 
   <div class="container">
     <h1 id="username">Witaj, użytkowniku!</h1>
-
-    <nav class="profile-links">
-      <a href="main.htm">🏠 Strona główna</a>
-      <a href="logchange.htm">✏️ Zmień login</a>
-      <a href="passchange.htm">🔒 Zmień hasło</a>
-      <a href="login.htm">🚪 Wyloguj się</a>
-    </nav>
-
-    <section class="results-container">
-      <h2>Twoje wyniki</h2>
+    <h2>Twoje wyniki</h2>
+    <section class="table-wrapper">
       <table id="tabela">
         <thead>
           <tr>
-            <th>Data</th>
+            <th>Login</th>
             <th>Wynik</th>
           </tr>
         </thead>
@@ -33,9 +25,19 @@
         </tbody>
       </table>
     </section>
+      <div class="button-container">
+        <button onclick="location.href='main.htm'">Strona główna</button>
+        <button onclick="location.href='logchange.htm'">Zmień login</button>
+        <button onclick="location.href='passchange.htm'">Zmień hasło</button>
+      </div>
+      <div class="button-container">
+        <button onclick="location.href='login.htm'">Wyloguj się</button>
+      </div>
+
   </div>
 
   <script src="galaxy.js"></script>
   <script src="profil.js"></script>
+
 </body>
 </html>

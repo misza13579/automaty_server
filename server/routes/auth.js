@@ -17,8 +17,8 @@ const loginLimiter = rateLimit({
 
 // Logowanie
 router.post("/logowanie", 
-    body("username").isLength({ min: 3 , max: 20}), 
-    body("password").isLength({ min: 6 , max: 20}),
+    body("username").isLength({ min: 3 }), 
+    body("password").isLength({ min: 6 }),
     loginLimiter, 
     (req, res) => {
         const errors = validationResult(req);
@@ -45,12 +45,8 @@ router.post("/logowanie",
 );
 
 // Rejestracja (dodawanie użytkownika)
-router.post("/dodaj_uzytkownika", 
-    body("username").isLength({ min: 3, max: 20}), 
-    body("password").isLength({ min: 6, max: 20}),
-     (req, res) => {
+router.post("/dodaj_uzytkownika", (req, res) => {
     const { idcard, username, password } = req.body;
-
 
     db.get("SELECT 1 FROM uzytkownicy WHERE identyfikator = ? OR login = ?", [idcard, username], (err, row) => {
         if (err) return res.status(500).send(err.message);

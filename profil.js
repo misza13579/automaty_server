@@ -1,16 +1,14 @@
 window.onload = function() {
   const username = sessionStorage.getItem("username");
-  const token = sessionStorage.getItem("token");  // Zakładając, że token jest zapisany w sessionStorage po zalogowaniu
-  
+  const token = sessionStorage.getItem("token");  
+
   if (!username || !token) {
-      // Jeśli użytkownik nie jest zalogowany (brak nazwy użytkownika lub tokenu), przekieruj na stronę logowania
       window.location.href = "login.htm";
       return;
   }
 
   document.getElementById("username").innerText = "Witaj, " + username;
 
-  // Dodanie tokenu JWT do nagłówka żądania
   fetch(`http://localhost:3000/wyniki`, {
       method: 'GET',
       headers: {
@@ -20,17 +18,19 @@ window.onload = function() {
   })
   .then(response => response.json())
   .then(data => {
-    console.log(data); 
       if (data.error) {
-          // Obsługa sytuacji, gdy użytkownik nie ma dostępu do wyników
           alert("Błąd: " + data.error);
           return;
       }
 
-      const tabela = document.getElementById("wynik");  // <-- tbody
+      const tabela = document.getElementById("wynik");
+      tabela.innerHTML = ""; // wyczyść jeśli coś jest
 
-      data.forEach(row => {
+      data.forEach((row, index) => {
           const tr = document.createElement("tr");
+          if (index >= 5) {
+            tr.style.display = "none";  // ukryj wiersze powyżej 5
+          }
 
           const tdData = document.createElement("td");
           tdData.innerText = row.data;
@@ -47,6 +47,21 @@ window.onload = function() {
 
           tabela.appendChild(tr);
       });
+
+      const showMoreBtn = document.getElementById("showMoreBtn");
+
+      if(data.length > 5){
+        showMoreBtn.style.display = "inline-block";  // pokaż przycisk jeśli więcej niż 5 wyników
+      } else {
+        showMoreBtn.style.display = "none";
+      }
+
+      showMoreBtn.onclick = () => {
+          for(let i = 5; i < tabela.children.length; i++) {
+              tabela.children[i].style.display = "table-row"; // pokaż ukryte wiersze
+          }
+          showMoreBtn.style.display = "none";  // ukryj przycisk po kliknięciu
+      };
   })
   .catch(error => {
       console.error("Błąd:", error);

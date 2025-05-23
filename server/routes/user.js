@@ -53,40 +53,37 @@ router.post('/gracz_info', (req, res) => {
 
 // Zmiana loginu
 router.put("/zmiana_loginu", verifyToken,
-    body("newusername").isLength({ min: 3, max: 20 }).withMessage("Login musi mieć od 3 do 20 znaków"),
-    body("password").notEmpty().withMessage("Hasło jest wymagane"),
+    body("newusername").isLength({ min: 3 }),
     (req, res) => {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ errors: errors.array() });
-        }
-
         const { newusername, password } = req.body;
         const { id, login } = req.user;
 
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
         db.get("SELECT 1 FROM uzytkownicy WHERE login = ?", [newusername], (err, row) => {
-            if (err) return res.status(500).json({ komunikat: "Błąd serwera" });
-            if (row) return res.status(400).json({ komunikat: "Login już istnieje" });
+            if (err) return res.status(500).send(err.message);
+            if (row) return res.json({ zmieniono: false, komunikat: "Login już istnieje." });
 
             db.get("SELECT * FROM uzytkownicy WHERE login = ?", [login], (err, userRow) => {
-                if (err) return res.status(500).json({ komunikat: "Błąd serwera" });
-                if (!userRow) return res.status(401).json({ komunikat: "Nieautoryzowany dostęp" });
+                if (err) return res.status(500).send(err.message);
+                if (!userRow) return res.status(401).json({ zalogowany: false });
 
                 bcrypt.compare(password, userRow.haslo, (err, result) => {
-                    if (err) return res.status(500).json({ komunikat: "Błąd serwera" });
-                    if (!result) return res.status(401).json({ komunikat: "Błędne hasło" });
+                    if (err) return res.status(500).send(err.message);
+                    if (!result) return res.status(401).json({ zmieniono: false, komunikat: "Błędne hasło." });
 
                     // Wszystko OK – aktualizujemy login we wszystkich tabelach
                     db.run("UPDATE uzytkownicy SET login = ? WHERE login = ?", [newusername, login], (err) => {
-                        if (err) return res.status(500).json({ komunikat: "Błąd serwera" });
+                        if (err) return res.status(500).send(err.message);
 
                         db.run("UPDATE wyniki SET login = ? WHERE login = ?", [newusername, login], (err) => {
-                            if (err) return res.status(500).json({ komunikat: "Błąd serwera" });
+                            if (err) return res.status(500).send(err.message);
 
                             db.run("UPDATE zwyciescy SET login = ? WHERE login = ?", [newusername, login], (err) => {
-                                if (err) return res.status(500).json({ komunikat: "Błąd serwera" });
+                                if (err) return res.status(500).send(err.message);
 
-                                res.json({ komunikat: "Login zmieniony poprawnie" });
+                                res.json({ zmieniono: true, komunikat: "login zmieniony poprawnie." });
                             });
                         });
                     });
@@ -95,8 +92,9 @@ router.put("/zmiana_loginu", verifyToken,
         });
     }
 );
+
 router.put("/zmiana_hasla", verifyToken,
-    body("newpassword").isLength({ min: 8, max: 20 }),
+    body("newpassword").isLength({ min: 8 }),
     (req, res) => {
         const { newpassword, password } = req.body;
         const { login } = req.user;
@@ -126,7 +124,7 @@ router.put("/zmiana_hasla", verifyToken,
     }
 );
 
-router.put("/zmiana_hasla2", body("newpassword").isLength({ min: 8, max: 20 }),
+router.put("/zmiana_hasla2", body("newpassword").isLength({ min: 8 }),
     (req, res) => {
         const { newpassword, id} = req.body;
 
