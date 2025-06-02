@@ -17,7 +17,7 @@
 
       <label for="password">Hasło:</label>
       <div class="password-wrapper">
-        <input type="password" id="password" name="password" required>
+        <input type="password" id="password" name="password" required minlength="8" maxlength="20">
           <span class="toggle-icon first-icon" onclick="togglePassword()" title="Pokaż hasło">
             <img src="ksiezyc.png" class="pixel-icon" alt="Pokaż hasło">
           </span>
@@ -26,7 +26,7 @@
 
       <label for="secondpassword">Powtórz hasło:</label>
       <div class="password-wrapper">
-        <input type="password" id="secondpassword" name="secondpassword" required>
+        <input type="password" id="secondpassword" name="secondpassword" required minlength="8" maxlength="20">
           <span class="toggle-icon second-icon" onclick="togglesecondPassword()" title="Pokaż hasło">
             <img src="ksiezyc.png" class="pixel-icon" alt="Pokaż hasło">
           </span>
@@ -35,7 +35,11 @@
 
       <label for="idcard">Zeskanuj identyfikator:</label>
       <input type="password" id="idcard" name="idcard" required minlength="10" maxlength="10"><br><br>
-
+      <div class="checkbox-container">
+        <input type="checkbox" id="accept-rules" name="accept-rules">
+          Akceptuję <a href="regulamin.htm" target="_blank">regulamin</a>
+      </div>
+      <div id="error-message" style="color: red; margin-top: 10px;"></div>
       <div class="button-container">
         <button type="submit">Zarejestruj się</button>
        </div>

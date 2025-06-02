@@ -79,7 +79,7 @@ html, body {
 .container h1 {
   text-align: center;
   font-size: clamp(1.4rem, 4vw, 2.2rem);
-  margin: 0 0 2rem;
+  margin: 0 0 1rem;
   color: var(--cosmic-pink);
   text-shadow: 
     4px 4px 0 var(--neon-blue),
@@ -87,6 +87,19 @@ html, body {
   letter-spacing: -1px;
   animation: glitch 1.5s linear infinite;
 }
+
+.container h3 {
+  text-align: center;
+  font-size: clamp(0.6rem, 2vw, 1.5rem);
+  margin: 0 0 2rem;
+  color: var(--neon-blue);
+  text-shadow: 
+    4px 4px 0 var(--cosmic-pink),
+    6px 6px 0 var(--deep-space);
+  letter-spacing: -1px;
+  animation: glitch 1.5s linear infinite;
+}
+
 
 @keyframes glitch {
   0%, 100% { transform: translate(0); }

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel administratora</title>
+  <link rel="stylesheet" href="main.css">
+</head>
+<body>
+  <canvas id="galaxy-bg"></canvas>
+
+  <div class="container">
+    <h1>Panel administratora</h1>
+    <h2>Oczekujący użytkownicy</h2>
+
+    <section class="table-wrapper">
+        <table>
+        <thead>
+            <tr>
+            <th>Login</th>
+            <th>Identyfikator</th>
+            <th>Zatwierdzenie</th>
+            <th>Usunięcie</th>
+            </tr>
+        </thead>
+        <tbody id="pending-users">
+        </tbody>
+        </table>
+
+    </section>
+
+    <div class="button-container">
+      <button onclick="location.href='main.htm'">Strona główna</button>
+      <button onclick="location.href='login.htm'">Wyloguj się</button>
+    </div>
+  </div>
+
+  <script src="galaxy.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

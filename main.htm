@@ -2,40 +2,40 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Automaty</title>
   <link rel="stylesheet" href="main.css">
 </head>
 <body>
   <canvas id="galaxy-bg"></canvas>
-
   <div class="container">
-    <h1>NIE KRECISZ NIE GRASZ</h1>
+    <h1>AKCELERATOR PRO 2.0</h1>
+    <h3>NIE KRECISZ NIE GRASZ</h3>
+
     <h2>O grze</h2>
     <div class="game-info">
-      <p>wIESZ CO MASZ ROBIĆ. MASZ KRĘCIĆ!!!</p>
+      <p>WIESZ CO MASZ ROBIC - KREC I GRAJ!!!</p>
     </div>
 
     <h2>Najlepsze wyniki graczy</h2>
     <div class="table-wrapper">
-      <table class="">
+      <table>
         <thead>
           <tr>
             <th>Login</th>
             <th>Wynik</th>
           </tr>
         </thead>
-        <tbody id="wynik">
-        </tbody>
+        <tbody id="wynik"></tbody>
       </table>
     </div>
+    <div id="error-message" style="color: red; margin-top: 10px;"></div>
 
     <div class="button-container">
       <button onclick="location.href='login.htm'">Logowanie</button>
       <button onclick="location.href='register.htm'">Rejestracja</button>
     </div>
   </div>
-
   <script src="galaxy.js"></script>
   <script src="main.js"></script>
 </body>

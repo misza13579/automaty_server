@@ -5,14 +5,23 @@ document.getElementById("reg").addEventListener("submit", function(e) {
   const password = document.getElementById("password").value;
   const secondpassword = document.getElementById("secondpassword").value;
   const idcard = document.getElementById("idcard").value;
+  const checkbox = document.getElementById('accept-rules');
+  const errorMsg = document.getElementById("error-message");
+
+  errorMsg.innerText = ""; // czyść stare błędy
 
   if (password !== secondpassword) {
-    alert("Hasła nie są takie same!");
+    errorMsg.innerText = "Hasła nie są takie same.";
+    return;
+  }
+
+  if (!checkbox.checked) {
+    errorMsg.innerText = "Musisz zaakceptować regulamin, aby się zarejestrować.";
     return;
   }
 
   if (!/^\d{10}$/.test(idcard)) {
-    alert("Identyfikator musi zawierać dokładnie 10 cyfr.");
+    errorMsg.innerText = "Identyfikator musi zawierać dokładnie 10 cyfr.";
     return;
   }
 
@@ -25,13 +34,14 @@ document.getElementById("reg").addEventListener("submit", function(e) {
   })
   .then(response => response.json())
   .then(data => {
-    alert(data.message);
     if (data.sukces) {
+      alert(data.message);
       window.location.href = "main.htm";
+    } else {
+      errorMsg.innerText = data.message || "Błąd serwera";
     }
   })
-  .catch(error => {
-    console.error("Błąd:", error);
-    alert("Wystąpił błąd podczas rejestracji.");
+  .catch(() => {
+    errorMsg.innerText = "Wystąpił błąd podczas rejestracji.";
   });
 });

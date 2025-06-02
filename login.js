@@ -16,16 +16,20 @@ document.getElementById("reg").addEventListener("submit", function(e) {
     if (data.token && data.zalogowany) {
       sessionStorage.setItem("token", data.token);
       sessionStorage.setItem("username", username);
-      window.location.href = "profil.html";
+      if (username === "admin") {
+        window.location.href = "admin.html";
+      } else {
+        window.location.href = "profil.html";
+      }
     } else {
-      alert(data.komunikat || "Niepoprawny login lub hasło.");
+      document.getElementById("error-message").innerText = data.error || "Niepoprawny login lub hasło.";
     }
   })
-  .catch(error => {
-    console.error("Błąd:", error);
-    alert("Wystąpił błąd po stronie serwera.");
+  .catch(() => {
+    document.getElementById("error-message").innerText = "Wystąpił błąd podczas logowania.";
   });
 });
+
 document.addEventListener("DOMContentLoaded", function() {
   sessionStorage.removeItem("token"); 
   sessionStorage.removeItem("username"); 
